@@ -9,7 +9,7 @@ The Pira 32 have been discontinued but the Pira 132 is told to be backward compa
 
 This app acts as a TCP server, receiving broadcast data from a RadioDJ client about the currently playing program.
 
-On RadioDJ side :
+**On RadioDJ side :**
 
 - Go to the Now Playing plugin
 - Click network tab and select TCP, port 21100 and type the IP address of the Raspberry
@@ -18,7 +18,7 @@ On RadioDJ side :
 
 Each time a new broadcast program is started, RadioDJ will open a shortlived connection to the RDS driver, providing the informations of the template.
 
-On Raspberry side (Minimal install documentation without details) :
+**On Raspberry side (Minimal install documentation without details) :**
 
 - clone this repo somewhere into /home/pi
 - install the usual gcc collection with apt-get
@@ -33,6 +33,13 @@ if you want to run this app as a systemd service, stay away from rvm - just inst
 
 - configure the STATION_SHORT (PS), STATION_PI (PI) and STATION_LONG (for Dynamic PS) at the top of rds.rb file
 
+You should configure you RDS encoder by your self (using the provided Windows app OR with a serial terminal under Linux, MacOS or whatever) but in case you're adventurous and lazy you can launch the app as ruby ./rds.rb init
+Your encoder will be initialized with PI, PS, radio text enabled and dynamic PS enabled.
+
+You'll also need to customize the category variable around line 220. In my case, AFAIR, 0 and 4 were used respectively for radio shows and music tracks.
+
+**Daemonization**
+
 Create rds.service file in /etc/systemd/system/ as
 
 ```
@@ -44,7 +51,7 @@ Type=simple
 User=pi
 Group=pi
 WorkingDirectory=/home/pi/rds
-ExecStart=/usr/bin/ruby /home/pi/rds/rds-v1.3.rb daemon
+ExecStart=/usr/bin/ruby /home/pi/rds/rds.rb daemon
 TimeoutSec=30
 RestartSec=15s
 Restart=always

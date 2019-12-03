@@ -326,7 +326,7 @@ class RdsRT
   # Prompt's main loop
   #
   def prompt
-    while line = Readline.readline("RDS RBPFM > ", true)
+    while line = Readline.readline("RDS > ", true)
       ar = line.split(' ')
       command = ar[0]
       if command
